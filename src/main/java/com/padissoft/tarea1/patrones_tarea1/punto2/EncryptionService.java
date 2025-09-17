@@ -11,12 +11,12 @@ public class EncryptionService {
         this.factory = factory;
     }
 
-    public String storeData(String data) {
+    public String encryptData(String data) {
         Encryptor encryptor = factory.getEncryptor();
         return encryptor.encrypt(data);
     }
 
-    public String readData(String encrypted) {
+    public String decryptData(String encrypted) {
         Encryptor encryptor = factory.getEncryptor();
         return encryptor.decrypt(encrypted);
     }

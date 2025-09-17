@@ -6,8 +6,14 @@ import com.padissoft.tarea1.patrones_tarea1.punto2.AesEncryptor;
 
 @Component("AES")
 public class AesEncryptorCreator extends EncryptorCreator {
+    private final AesEncryptor aesEncryptor;
+
+    public AesEncryptorCreator(AesEncryptor aesEncryptor) {
+        this.aesEncryptor = aesEncryptor;
+    }
+
     @Override
     public Encryptor createEncryptor() {
-        return new AesEncryptor();
+        return aesEncryptor; // reuse Spring-managed bean
     }
 }
