@@ -1,41 +1,38 @@
 # Welcome to StackEdit!
 
-### Resuelve el punto 2 de la Tarea 1 de PADISOFT:
+### Resuelve el punto 3 de la Tarea 1 de PADISOFT:
 
-Sobre el framework establecido en el punto anterior: Spring(Java)
+En la aplicación, además de encriptar los datos con la fábrica del Punto 2, se requiere  
+almacenar no solo el valor cifrado, sino también información adicional como:  
+- el algoritmo usado,  
+- la versión de la encriptación,  
+- el identificador de la clave,  
+- y la fecha en que se generó.  
 
-Usando el patrón Factory Method para Fábrica de cifradores para datos sensibles
-La aplicación debe almacenar números de tarjeta de crédito y otros datos
-sensibles sin guardarlos en texto plano. Según una configuración (p. ej., “AES” o
-“RSA”), el sistema debe cifrar antes de guardar y descifrar al leer.
+Como este objeto tiene muchos atributos, no es práctico usar un constructor con  
+demasiados parámetros.  
+Implementar el patrón Builder para crear un objeto llamado, por ejemplo,  
+CryptoEnvelope, que contenga tanto el dato cifrado como la metadata necesaria.  
 
-Debe implementar el patrón Factory Method para crear el cifrador adecuado sin
-que la capa de dominio conozca clases concretas.
+### Requisitos mínimos:
+1. Definir la clase CryptoEnvelope con varios atributos (algoritmo, versión, clave,  
+fecha, dato cifrado , entre otros ).
+2. Implementar un Builder que permita construir el objeto paso a paso mediante  
+métodos como withAlgorithm(...), withVersion(...), etc.  
+3. Usar el método build() para obtener el objeto final.  
+4. Demostrar que se puede crear un CryptoEnvelope de manera clara y legible,  
+sin usar constructores con muchos parámetros.  
 
-Requisitos mínimos
-1. Definir una interfaz Producto que permita encriptar y descifrar información:
-2. Definir un creador abstracto con el factory method.
-3. Definir creadores concretos (Concrete Creators), cada uno sobrescribe el
-factory method:
-- AesEncryptorCreator → retorna AesEncryptor
-- RsaEncryptorCreator → retorna RsaEncryptor
-- Con el objetivo de cumplir los principios SOLID, podrán agregarse nuevos productos sin necesidad de modificar las clases existente.
+### Restricciones :
+- El objeto final debe ser inmutable: una vez construido, no se puede modificar.  
+- El Builder debe asegurar que los campos obligatorios estén presentes.  
+- Se deben utilizar los recursos del framework para la correcta implementación  
+del patrón.  
 
-4. La selección del creador se hace por configuración (string como “AES”,
-“RSA”) y debe hacer uso de los principios de inyección e inversión de
-dependencias.
-5. Debe existir una prueba simple que demuestre el funcionamiento de la
-fábrica y los cambios de configuración
-Restricciones
-- Mantener bajo acoplamiento: el código de dominio solo conoce
-EncryptorCreator y Encryptor.
-- Se deben utilizar los recursos del framework para la correcta implementación
-del patrón.
-
-### Entregables
-- Código fuente con las clases.
-- Diagrama UML del problema.
-- Explicación donde se evidencie la ejecución y los resultados obtenidos.
+### Entregables : 
+- Código fuente de la clase y el Builder.  
+- Un diagrama UML de clases, respetando las convenciones .  
+- Un ejemplo de ejecución donde se muestre cómo se crea un objeto CryptoEnvelope con el patrón Builder.
 
 
 
@@ -44,13 +41,40 @@ del patrón.
 ```mermaid
 classDiagram
 
-EncryptionService  <--  PatronesTarea1Application
-class EncryptionService {
+EnvelopeService  <--  PatronesTarea1Application
+class EnvelopeService {
 	-EncryptorFactory  factory
-	+encryptData(String) String
-	+decryptData(String) String
+	+createEnvelope(String, String) CryptoEnvelope
+	+getDecryptedData(CryptoEnvelope) String
 }
-EncryptorFactory  <--  EncryptionService
+CryptoEnvelope  <--  EnvelopeService
+class CryptoEnvelope {
+	-String algorithm
+	-String version
+	-String keyId
+	-LocalDateTime createdAt
+	-String encryptedData
+	+getAlgorithm() String
+	+getVersion() String
+	+getKeyId() String
+	+getCreatedAt() LocalDateTime
+	+getEncryptedData() String
+}
+CryptoEnvelope <-- CryptoEnvelopeBuilder
+class CryptoEnvelopeBuilder {
+	-String algorithm
+	-String version
+	-String keyId
+	-LocalDateTime createdAt
+	-String encryptedData
+	+withAlgorithm(String) CryptoEnvelopeBuilder
+	+withVersion(String) CryptoEnvelopeBuilder
+	+withKeyId(String) CryptoEnvelopeBuilder
+	+withCreatedAt(LocalDateTime) CryptoEnvelopeBuilder
+	+withEncryptedData(String) CryptoEnvelopeBuilder
+	+build() CryptoEnvelope
+}
+EncryptorFactory  <--  EnvelopeService
 class EncryptorFactory {
 	-Map<String, EncryptorCreator> creators
 	-String  encryptionType

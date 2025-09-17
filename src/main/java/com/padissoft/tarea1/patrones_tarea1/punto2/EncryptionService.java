@@ -13,11 +13,11 @@ public class EncryptionService {
 
     public String encryptData(String data) {
         Encryptor encryptor = factory.getEncryptor();
-        return encryptor.encrypt(data);
+        return encryptor.encrypt(data, ""); //Adding empty keyID to prevent argument length error
     }
 
     public String decryptData(String encrypted) {
         Encryptor encryptor = factory.getEncryptor();
-        return encryptor.decrypt(encrypted);
+        return encryptor.decrypt(encrypted, ""); //Adding empty keyID to prevent argument length error
     }
 }
