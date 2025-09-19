@@ -11,28 +11,30 @@ import java.time.LocalDateTime;
 public class EnvelopeService {
 
     private final EncryptorFactory factory;
+    private final Encryptor encryptor;
 
     // IoC/DI: Spring inyecta la factory automáticamente
     public EnvelopeService(EncryptorFactory factory) {
         this.factory = factory;
+        this.encryptor = factory.getEncryptor();
     }
 
     public CryptoEnvelope createEnvelope(String plainData, String keyId) {
-        Encryptor encryptor = factory.getEncryptor();
-        String encrypted = encryptor.encrypt(plainData, keyId);
-
         return new CryptoEnvelope.CryptoEnvelopeBuilder()
-                .withAlgorithm(encryptor.getClass().getSimpleName()) // o de properties
+                .withAlgorithm(this.encryptor.getClass().getSimpleName()) // o de properties
                 .withVersion("1.0")
                 .withKeyId(keyId)
                 .withCreatedAt(LocalDateTime.now())
-                .withEncryptedData(encrypted)
+                .withEncryptedData(encryptData(plainData, keyId))
                 .build();
     }
 
+    private String encryptData(String plainData, String keyId) {
+        return this.encryptor.encrypt(plainData, keyId);
+    }
+
     public String getDecryptedData(CryptoEnvelope envelope) {
-        Encryptor encryptor = factory.getEncryptor();
-        return encryptor.decrypt(envelope.getEncryptedData(), envelope.getKeyId());
+        return this.encryptor.decrypt(envelope.getEncryptedData(), envelope.getKeyId());
     }
 }
 
