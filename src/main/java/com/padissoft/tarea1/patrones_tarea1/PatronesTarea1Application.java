@@ -21,7 +21,7 @@ public class PatronesTarea1Application implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        String data = "4111111111111111";
+        String data = "Dato a ser encriptado";
         String encrypted = service.encryptData(data);
         System.out.println("Dato encriptado: " + encrypted);
         System.out.println("Dato desencriptado: " + service.decryptData(encrypted));

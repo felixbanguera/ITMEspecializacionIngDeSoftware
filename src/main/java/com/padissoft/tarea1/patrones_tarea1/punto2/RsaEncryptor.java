@@ -7,10 +7,10 @@ import com.padissoft.tarea1.patrones_tarea1.punto2.Encryptor;
 public class RsaEncryptor implements Encryptor {
     @Override
     public String encrypt(String data) {
-        return "[RSA]" + data;
+        return "[Dato encriptado con RSA]:" + data;
     }
     @Override
     public String decrypt(String data) {
-        return data.replace("[RSA]", "");
+        return data.replace("[Dato encriptado con RSA]:", "");
     }
 }

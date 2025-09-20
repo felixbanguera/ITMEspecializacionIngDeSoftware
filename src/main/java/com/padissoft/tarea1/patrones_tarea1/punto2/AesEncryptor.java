@@ -7,10 +7,10 @@ import com.padissoft.tarea1.patrones_tarea1.punto2.Encryptor;
 public class AesEncryptor implements Encryptor {
     @Override
     public String encrypt(String data) {
-        return "[AES]" + data;
+        return "[Dato encriptado con AES]:" + data;
     }
     @Override
     public String decrypt(String data) {
-        return data.replace("[AES]", "");
+        return data.replace("[Dato encriptado con AES]:", "");
     }
 }
