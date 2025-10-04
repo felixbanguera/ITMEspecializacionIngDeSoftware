@@ -12,11 +12,13 @@ public class EncryptionService {
     }
 
     public String encryptData(String data) {
+        // Para cambiar el tipo de encriptor cambiar los valores de encryption.type en resources/application.properties entre "RSA" y "AES"
         Encryptor encryptor = factory.getEncryptor();
         return encryptor.encrypt(data);
     }
 
     public String decryptData(String encrypted) {
+        // Para cambiar el tipo de encriptor cambiar los valores de encryption.type en resources/application.properties entre "RSA" y "AES"
         Encryptor encryptor = factory.getEncryptor();
         return encryptor.decrypt(encrypted);
     }

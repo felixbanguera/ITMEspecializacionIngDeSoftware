@@ -38,6 +38,11 @@ del patrón.
 - Explicación donde se evidencie la ejecución y los resultados obtenidos.
 
 
+## How to run
+Si tiene un ambiente listo para correr proyectos de Springboot:
+
+mvn spring-boot:run
+
 
 ## Diagrama UML 
 

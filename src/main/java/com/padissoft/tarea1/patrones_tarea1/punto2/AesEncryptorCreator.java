@@ -14,6 +14,9 @@ public class AesEncryptorCreator extends EncryptorCreator {
 
     @Override
     public Encryptor createEncryptor() {
-        return aesEncryptor; // reuse Spring-managed bean
+        // Es importante notar que como springboot tiene por defecto IoC con el contenedor de beans, 
+        //   este patrón como tal NO crea nuevas intancias de los productos concretos, 
+        //     sino que solo llama las instacias inyectadas por dependencia.
+        return aesEncryptor; // reusa el bean manejado por spring
     }
 }

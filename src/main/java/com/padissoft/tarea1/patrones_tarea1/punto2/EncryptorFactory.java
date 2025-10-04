@@ -11,6 +11,7 @@ public class EncryptorFactory {
     private final Map<String, EncryptorCreator> creators;
     private final String encryptionType;
 
+    // la lógica de esta clase podría vivir dentro del ENcription service o el main pero se implemento para mantener el código más limpio.
     public EncryptorFactory(Map<String, EncryptorCreator> creators,
                             @Value("${encryption.type}") String encryptionType) {
         this.creators = creators;
