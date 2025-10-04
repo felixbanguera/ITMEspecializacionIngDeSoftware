@@ -16,10 +16,12 @@ public class EnvelopeService {
     // IoC/DI: Spring inyecta la factory automáticamente
     public EnvelopeService(EncryptorFactory factory) {
         this.factory = factory;
+        // Para cambiar el tipo de encriptor cambiar los valores de encryption.type en resources/application.properties entre "RSA" y "AES"
         this.encryptor = factory.getEncryptor();
     }
 
     public CryptoEnvelope createEnvelope(String plainData, String keyId) {
+        // Acá se ejecuta la cadena de creación con el patrón Builder
         return new CryptoEnvelope.CryptoEnvelopeBuilder()
                 .withAlgorithm(this.encryptor.getClass().getSimpleName()) // o de properties
                 .withVersion("1.0")

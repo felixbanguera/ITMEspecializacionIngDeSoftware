@@ -10,7 +10,7 @@ public final class CryptoEnvelope {
     private final LocalDateTime createdAt;
     private final String encryptedData;
 
-    // Constructor privado → solo accesible desde el Builder
+    // Constructor privado: solo es accesible desde el Builder
     private CryptoEnvelope(CryptoEnvelopeBuilder builder) {
         this.algorithm = builder.algorithm;
         this.version = builder.version;
@@ -19,7 +19,7 @@ public final class CryptoEnvelope {
         this.encryptedData = builder.encryptedData;
     }
 
-    // Getters (sin setters → objeto inmutable)
+    // Getters (sin setters y privados: crea objetos inmutables)
     public String getAlgorithm() { return algorithm; }
     public String getVersion() { return version; }
     public String getKeyId() { return keyId; }
@@ -34,6 +34,7 @@ public final class CryptoEnvelope {
         private LocalDateTime createdAt;
         private String encryptedData;
 
+        // cada uno de los sgtes métodos devuelve la instancia de CryptoEnvelopeBuilder para poder encadenar el sgte método
         public CryptoEnvelopeBuilder withAlgorithm(String algorithm) {
             this.algorithm = algorithm;
             return this;
@@ -61,12 +62,15 @@ public final class CryptoEnvelope {
 
         // Validación de campos obligatorios
         public CryptoEnvelope build() {
+            // Válida que los campos algorithm, keyId y encryptedData no pueden ser nulos
             if (algorithm == null || keyId == null || encryptedData == null) {
                 throw new IllegalStateException("algorithm, keyId y encryptedData son obligatorios");
             }
+            // createdAt puede ser nulo, y en caso que lo sea le agrega el valor del tiempo en el momento de ejecución
             if (createdAt == null) {
                 createdAt = LocalDateTime.now();
             }
+            // Version se valida y si no existe se pone como 1.0 por defecto (puede mejorar)
             if (version == null) {
                 version = "1.0";
             }
