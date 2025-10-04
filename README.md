@@ -34,6 +34,10 @@ del patrón.
 - Un diagrama UML de clases, respetando las convenciones .  
 - Un ejemplo de ejecución donde se muestre cómo se crea un objeto CryptoEnvelope con el patrón Builder.
 
+## How to run
+Si tiene un ambiente listo para correr proyectos de Springboot:
+
+mvn spring-boot:run
 
 
 ## Diagrama UML 
