@@ -1,15 +1,20 @@
 // Main para demostrar
 public class Main {
     public static void main(String[] args){
-        // 1) usar el legacy a través del adapter
+        // 1. Crear los objetos legacy
         
-        User legacy = new User("felix", "secreto");
+        User felixUser = new User("Félix", "Banguera", "felixb", "passwordExampleFelix");
+        User nathyUser = new User("Nathalia", "Buitrago", "NathyB", "passwordExampleNathy");
+        User carlosUser = new User("Carlos", "Valencia", "CarlosVal", "passwordExampleCarlos");
+        User juanUser = new User("Juan", "Perez", "JuanP", "passwordExampleJuan");
+
+        // 2. Crear el Adapter para ejemplo de autenticacion
         
-        IAuthenticator legacyAdapter = new LegacyUserAdapter(legacy);
+        IAuthenticator legacyAdapter = new LegacyUserAdapter(felixUser);
         AuthClient clientLegacy = new AuthClient(legacyAdapter);
 
-        AuthRequest credsOk = AuthRequest.withCredentials("felix", "secreto");
-        AuthRequest credsFail = AuthRequest.withCredentials("felix", "mal");
+        AuthRequest credsOk = AuthRequest.withCredentials("felixb", "passwordExampleFelix");
+        AuthRequest credsFail = AuthRequest.withCredentials("felixb", "NOTpasswordExampleFelix");
 
         clientLegacy.tryLogin(credsOk);   // esperado: true
         clientLegacy.tryLogin(credsFail); // esperado: false
@@ -35,15 +40,17 @@ public class Main {
         OrgComposite deptTI = new OrgComposite("Departamento IT");
         OrgComposite deptRRHH = new OrgComposite("Recursos Humanos (HR)");
 
-        // 2️⃣ Crear empleados (Leaf)
-        UserLeaf emp1 = new UserLeaf("Roberto - Desarrollador");
-        UserLeaf emp2 = new UserLeaf("Danilo - SysAdmin");
-        UserLeaf emp3 = new UserLeaf("Carla - HR");
+        // 2️⃣ Crear empleados (Leaf) a partir de LegacyUSerAdapter
+        OrgComponent felixLeaf = new LegacyUserAdapter(felixUser);
+        OrgComponent nathyLeaf = new LegacyUserAdapter(nathyUser);
+        OrgComponent carlosLeaf = new LegacyUserAdapter(carlosUser);
+        OrgComponent juanLeaf = new LegacyUserAdapter(juanUser);
 
         // 3️⃣ Construir jerarquía
-        deptTI.add(emp1);
-        deptTI.add(emp2);
-        deptRRHH.add(emp3);
+        deptTI.add(felixLeaf);
+        deptTI.add(nathyLeaf);
+        deptRRHH.add(carlosLeaf);
+        sedeBogota.add(juanLeaf);
         sedeBogota.add(deptTI);
         sedeBogota.add(deptRRHH);
         empresa.add(sedeBogota);

@@ -1,9 +1,15 @@
 // ADAPTER: adapta la clase legado User al contrato IAuthenticator
-public class LegacyUserAdapter implements IAuthenticator {
+//LEAF: Queda siendo parte del composite como una hoja (Leaf) al extender el OrgComponent
+public class LegacyUserAdapter extends OrgComponent implements IAuthenticator {
     private final User legacyUser;
 
     public LegacyUserAdapter(User legacyUser) {
         this.legacyUser = legacyUser;
+        super(legacyUser.getUsername());
+    }
+
+    private String nameToDisplay(){
+        return legacyUser.getFirstname() +" "+ legacyUser.getLastname() +" ("+ legacyUser.getUsername()+")";
     }
 
     @Override
@@ -16,5 +22,10 @@ public class LegacyUserAdapter implements IAuthenticator {
         boolean ok = legacyUser.checkUserNameandPassword(req.username, req.password);
         System.out.println("[LegacyUserAdapter] Autenticación legado para '" + req.username + "': " + ok);
         return ok;
+    }
+
+    @Override
+    public void showInfo(String indent) {
+        System.out.println(indent + "👤 " + this.nameToDisplay());
     }
 }
