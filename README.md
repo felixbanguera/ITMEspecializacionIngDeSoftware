@@ -13,3 +13,9 @@ SRP: cada clase tiene una sola responsabilidad (legacy: datos/validación legado
 ### Next steps
 
 Factory para crear el IAuthenticator adecuado según configuración (por ejemplo, "legacy", "token", "oauth"). Facilita intercambio en runtime.
+
+## Como correrlo:
+
+Compilar: `javac *.java`
+
+Correr el maim: `java Main`
